@@ -2,7 +2,6 @@ let myLeads = [];
 const inputEl = document.getElementById("input-el");
 const ulEl = document.getElementById("ul-el");
 const deleteBtn = document.getElementById("delete-btn");
-
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 const tabBtn=document.getElementById("tab-btn");
 
@@ -17,10 +16,8 @@ tabBtn.addEventListener("click",function(){
         myLeads.push(tabs[0].url);
         localStorage.setItem("myLeads",JSON.stringify(myLeads) );
         render(myLeads);
-    })
-    
-    
-})
+    });    
+});
 
 function render(leads){
     let listItems = [];
@@ -30,19 +27,28 @@ function render(leads){
                 <a target='_blank' href=${leads[i]}>
                 ${leads[i]}
                 </a>
-                <a onclick="removeLead(${i})" style="margin-left:10px;padding-left:10px; text-decoration: underline;">Remove</a> 
+                <a class="remove-link" data-index="${i}" style="margin-left:10px;padding-left:10px; text-decoration: underline;">Remove</a> 
             </li>
         `;
     }
 
 ulEl.innerHTML = listItems;
+// attach event listeners to remove each lead link
+    const removeLinks = document.querySelectorAll(".remove-link");
+    removeLinks.forEach(link => {
+        link.addEventListener("click",function() {
+            const index = parseInt(this.getAttribute("data-index"));
+            removeLead(index);
+        });
+    });
 }
+        
 
 deleteBtn.addEventListener("dblclick",function(){
     localStorage.clear();
     myLeads=[];
     render(myLeads);
-})
+});
 
 document.getElementById("input-btn").addEventListener("click", function(){
     myLeads.push(inputEl.value);

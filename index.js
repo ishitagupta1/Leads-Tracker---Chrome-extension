@@ -30,6 +30,7 @@ function render(leads){
                 <a target='_blank' href=${leads[i]}>
                 ${leads[i]}
                 </a>
+                <a onclick="removeLead(${i})" style="margin-left:10px;padding-left:10px; text-decoration: underline;">Remove</a> 
             </li>
         `;
     }
@@ -52,7 +53,11 @@ document.getElementById("input-btn").addEventListener("click", function(){
     console.log(localStorage.getItem("myLeads"));
 });
 
-document.getElementById("search-input").addEventListener("input",function(){
-    
-});
+//To remove a lead from the list
+function removeLead(index){
+    myLeads.splice(index,1); // splice is removing one element from myLeads array
+    localStorage.setItem("myLeads",JSON.stringify(myLeads));
+    render(myLeads);
+}
+
 
